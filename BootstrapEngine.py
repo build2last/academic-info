@@ -17,8 +17,8 @@ html_end = """
     <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
   </body>
   <footer>
-  <p align="center">All data from a collection from Microsoft oxford academic API in 2016-05-01</p>
-  <p align="center">I'm liukun, may be your potential friend</p>
+  <p align="center">All data from a collection of Microsoft oxford academic API in 2016-05-01</p>
+  <p align="center">Author: Liukun</p>
   </footer>
 </html>
 """

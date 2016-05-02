@@ -59,51 +59,22 @@ def index_generate(file_list):
   </footer>
 </html>
     '''
-    count = 0
     with open("./pre_index.html",'w') as f:
         f.write(containner_head)
-        f.write('''
-        <div class="row-fluid">
-        ''')
+        f.writelines('<div class="span12">')
         for i in file_list:
             school_name = i.split('.')[0]
-            if count%4 == 0:
-                f.writelines('''
-                <div class="row-fluid">
-                ''')
-                f.write('''
-                    <div class="col-xs-3 span3">
-                        <div class='insti-label'>
-                        <h3>
-                            <a href="pages/%s">%s</a>
-                        </h3>
-                        </div>
+            f.write('''
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1 class="insti-label">
+                        <a href="pages/%s">%s</a>
+                    </h1>
                     </div>
-                '''%(i,regular_institute_name(school_name)))
-            elif count%4 == 3:
-                 f.write('''
-                        <div class="col-xs-3 span3">
-                            <div class='insti-label'>
-                                <h3>
-                                    <a href="pages/%s">%s</a>
-                                </h3>
-                            </div>
-                        </div>
-                        '''%(i,regular_institute_name(school_name)))
-                 f.write("</div>")
-            else:
-                 f.write('''
-                    <div class="col-xs-3 span3">
-                        <div class='insti-label'>
-                            <h3>
-                                <a href="pages/%s">%s</a>
-                            </h3>
-                        </div>
-                    </div>
-                    '''%(i,regular_institute_name(school_name)))
-            count +=1
+                </div>
+            '''%(i,regular_institute_name(school_name)))
+        f.writelines('</div>')
         f.write(containner_end)   
- 
 
 def regular_institute_name(name):
     words_list = name.split(' ')

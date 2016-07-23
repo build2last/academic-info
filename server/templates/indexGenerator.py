@@ -1,51 +1,54 @@
-﻿#自动生成index.html
+﻿# coding: utf-8
+#自动生成index.html
+# 加入校名背景颜色，随机产生，并无其他意义
+# To do：赋予颜色意义
 import os
 import sys
 import codecs
-
+import random
 
 def index_generate(file_list):
-    containner_head = '''
-<!DOCTYPE html>
-<html>
-  <head>	  
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
-    <style type="text/css">
-        body
-        {
-        padding-bottom: 60px;
-        }
-        .insti-label
-        {
-            height:120px;
-            background:#FFF8DC;
-            text-align:center;
-            vertical-align:middle;
-            margin-bottom:1em;           
-        }
-    </style>
-  </head>
-  <body>  
-  <div>
-    <div class="container-fluid">
-        <div class="span12">
-			<div class="page-header" style="background:#B481BB;">
-				<h1>
-					<span>College Academic</span>
-				</h1>
-				<h1>
-					<small><span>Sampling statistics</span></small>
-				</h1>
-				<h2>
-					<font face="%s">%s</strong></font>
-				</h2>
-                <p>%s</p>
-            </div>
-        </div>
-    '''%(u"微软雅黑",u"高校paper英雄榜","Data from Microsoft Academic")
-    containner_end ='''
+    containner_head =u'''
+        <!DOCTYPE html>
+        <html>
+          <head>	  
+            <meta charset="utf-8">
+            <title>Paper Hero</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
+            <style type="text/css">
+                body
+                {
+                padding-bottom: 60px;
+                }
+                .insti-label
+                {
+                    height:120px;
+                    background:#FFF8DC;
+                    text-align:center;
+                    vertical-align:middle;
+                    margin-bottom:1em;           
+                }
+            </style>
+          </head>
+          <body>  
+            <div class="container">
+                <div class="row clearfix">
+                    <div class="col-md-12 column">
+                        <div class="jumbotron">
+                            <h1>
+                                <font face="微软雅黑" color="#8B008B">★高校paper英雄榜</strong></font>
+                            </h1>
+                            <h2>College Academic</h2>
+                            <p>
+                                根据从微软学术收集到数据，分析列举各个高校学者论文被引用次数的排行。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+        '''
+    
+    containner_end =u'''
                 </div>
         </div>
     </div>
@@ -61,18 +64,20 @@ def index_generate(file_list):
     '''
     with codecs.open("./index.html",'w','utf-8') as f:
         f.write(containner_head)
-        f.writelines('<div class="span12">')
+        f.writelines(' <div class="row clearfix">')
         for i in file_list:
-            school_name = i.split('.')[0]
+            school_name = i.split('.')[0].split('/')[1]
+            sc_name = regular_institute_name(school_name)
             f.write('''
-            <div class="row-fluid">
-                <div class="span12">
-                    <h1 class="insti-label">
-                        <a href="pages/%s">%s</a>
-                    </h1>
-                    </div>
-                </div>
-            '''%(i,regular_institute_name(school_name)))
+             <div class="col-md-4 column">
+                <h2 style="background-color:%s">
+                   %s
+                </h2>
+                <p>
+                    <a class="btn" href="%s">%s</a>
+                </p>
+            </div>
+            '''%(random.sample(["#DCDCDC"  ,"#FFE4E1" , "#F5FFFA", "#F5F5F5"  , "#F8F8FF, #F5F5DC"  , "#FFFACD"  , "#FAFAD2"  , "#FFFFE0" ], 1)[0], sc_name, i, sc_name))
         f.writelines('</div>')
         f.write(containner_end)   
 
@@ -91,13 +96,16 @@ def exe(path):
     for root, dirs, files in os.walk(path):#递归path下所有目录
         for f_name in files:
             if f_name.lower().endswith('.html'):
-                fileList.append(f_name)
+                fileList.append(path + f_name)
     index_generate(fileList)
     
 if __name__ =="__main__":
     fileList = []
+    exe("pages/")
+    """
     for root, dirs, files in os.walk('pages/'):#递归path下所有目录
         for f_name in files:
             if f_name.lower().endswith('.html'):
                 fileList.append(f_name)
     index_generate(fileList)
+    """

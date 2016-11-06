@@ -1,16 +1,23 @@
-﻿#-*- coding: utf-8 -*-
-#This file shall of the same level with the json data 
+#-*- coding: utf-8 -*-
+"""
+    多进程，快得一比
+    2016-11-06
+    author: liu kun
+"""
+# This file shall of the same level with the json data 
 import json
 import os
 import BootstrapEngine  as BS
 import indexGenerator as g
-import threading
-import Queue
+import time
+from multiprocessing import Process, Queue
+
+CPU_KERNAL_NUMBER = 4
 
 # 多线程处理器
-class processor(threading.Thread):  
+class processor(Process):  
     def __init__(self,que):  
-        threading.Thread.__init__(self)  
+        Process.__init__(self)  
         self.que = que
     def run(self):
         while True:
@@ -31,7 +38,7 @@ class processor(threading.Thread):
                  except Exception as e:
                      print(str(e))  
             else:
-                print("一个线程结束了！\n")
+                print("一个子进程结束了！\n")
                 break 
 
 def getJson(file_name):
@@ -62,38 +69,9 @@ def regular_institute_name(name):
     return reg_name
 
     
-    
-def exe():
-    fileList = []
-    que = Queue.Queue()
-    for root, dirs, files in os.walk('./'):#递归path下所有目录
-        for f_name in files:
-            if f_name.lower().endswith('.json'):
-                fileList.append(f_name)
-    if not os.path.exists("pages"):
-        os.mkdir("pages")
-    for i in fileList:
-        que.put(i)
-    threads = []
-    
-    que_set_size = 0
-    if que.qsize()<5:
-        que_set_size = que.qsize()
-    else:
-        que_set_size =5
-    for j in range(que_set_size):
-        p = processor(que)
-        p.start()
-        threads.append(p)
-    for t in threads:
-        t.join()
-
-    print("线程结束.")
-    #调用生成index.html    
-    g.exe('pages/')
 if __name__ =="__main__":
     fileList = []
-    que = Queue.Queue()
+    que = Queue()
     for root, dirs, files in os.walk('./'):#递归path下所有目录
         for f_name in files:
             if f_name.lower().endswith('.json'):
@@ -102,21 +80,20 @@ if __name__ =="__main__":
         os.mkdir("pages")
     for i in fileList:
         que.put(i)
-    threads = []
-    
-    que_set_size = 0
-    if que.qsize()<5:
-        que_set_size = que.qsize()
-    else:
-        que_set_size =5
-    for j in range(que_set_size):
+    start_time = time.clock()
+    process_list = []
+    for j in range(CPU_KERNAL_NUMBER):
         p = processor(que)
+        p.daemon = False  #子进程不会在主进程结束时终止
+        process_list.append(p)
         p.start()
-        threads.append(p)
-    for t in threads:
-        t.join()
-
-    print("所有线程结束.")
-    #调用生成index.html    
-    g.exe('pages/')
+    while True:
+        end_flag = True
+        for p in process_list:
+            if p.is_alive():
+                end_flag = False
+                break
+        if end_flag:
+            print('cost:',time.clock() - start_time,'s')
+            break
  

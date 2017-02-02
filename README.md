@@ -1,6 +1,9 @@
 # academic-info
-Just like what I say. py 2.7 standard 
+* python 2.7
+* 多进程数据处理
+* 自制模板渲染引擎
 
+### 概述 
 1. index前端静态美化
 2. 部署tornado
 3. 生成paper rank用多线程

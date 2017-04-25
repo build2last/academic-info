@@ -1,8 +1,5 @@
 # academic-info
-py 2.7 standard 
-
-## test_WebApp
-main.py 运行完成整套流程
+Python 2.7 project
 
 ## 模块功能说明
 1. ApiQuery 获取原始学术数据
@@ -14,6 +11,9 @@ main.py 运行完成整套流程
 7. RunServer 依托 tornado 运行Web App
 8. settings.py 存放配置文件，设置文件路径
 
+### test_WebApp
+0. main.py 运行完成整套流程
+
 ## Server 
 tornado
 
@@ -21,11 +21,4 @@ tornado
 * python 2.7
 * 多进程数据处理
 * 自制模板渲染引擎
-
-### 概述 
-1. index前端静态美化
-2. 部署tornado
-3. 生成paper rank用多线程
-4. 不断codereview
-5. 更多学校的信息搜集
 

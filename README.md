@@ -1,5 +1,4 @@
 # academic-info
-<<<<<<< HEAD
 py 2.7 standard 
 
 ## test_WebApp
@@ -19,13 +18,11 @@ main.py 运行完成整套流程
 tornado
 
 ## 提升空间
-=======
 * python 2.7
 * 多进程数据处理
 * 自制模板渲染引擎
 
 ### 概述 
->>>>>>> origin/master
 1. index前端静态美化
 2. 部署tornado
 3. 生成paper rank用多线程

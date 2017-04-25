@@ -4,7 +4,7 @@ py 2.7 standard
 ## test_WebApp
 main.py 运行完成整套流程
 
-## 统计分析
+## 模块功能说明
 1. ApiQuery 获取原始学术数据
 2. ApiQuery2 多线程获取原始学术数据
 3. mvp 统计分析学术数据并渲染出 html 页面

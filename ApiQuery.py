@@ -1,4 +1,13 @@
-﻿#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+
+""" 获取数据 
+	利用微软学术提供的 API 查询获取目标学校的论文信息。
+"""
+
+__python_version__ = 2.7
+__author__ = Liu Kun
+__last_edit__ = "2017-04-25"
+
 import urllib
 import re
 import json
@@ -10,7 +19,7 @@ socket.setdefaulttimeout(30)
 
 oxford_academic_key = "9c5e14d41af7453d95b1f502f396d76d"
 
-#https://oxfordhk.azure-api.net/academic/v1.0/evaluate?expr=Id=2140251882&count=10000&attributes=Id,AA.AuId,AA.AfId&subscription-key=f7cc29509a8443c5b3a5e56b0e38b5a6
+# eg: https://oxfordhk.azure-api.net/academic/v1.0/evaluate?expr=Id=2140251882&count=10000&attributes=Id,AA.AuId,AA.AfId&subscription-key=f7cc29509a8443c5b3a5e56b0e38b5a6
 url_head = "https://api.projectoxford.ai/academic/v1.0/calchistogram?"
 
 school_list = ['peking university','tsinghua university','zhejiang university',
@@ -31,7 +40,7 @@ def print_entity(enti_list):
 def mvp_find(enti_list):
     pass
         
-#多线程下载器
+# 多线程下载器
 class download(threading.Thread):  
     def __init__(self,que):  
         threading.Thread.__init__(self)  
@@ -39,7 +48,6 @@ class download(threading.Thread):
     def run(self):  
          try:
             url = self.que.get()
-            # resp =urllib.urlopen(url)
             req = urllib2.Request(url)
             req.add_header('Ocp-Apim-Subscription-Key', oxford_academic_key)
             resp = urllib2.urlopen(req)
@@ -58,7 +66,7 @@ class download(threading.Thread):
 if __name__ == "__main__":
     que = Queue.Queue()
     try:
-        for i in new_list:#school_list+school_list2+school_list3:
+        for i in new_list:	#school_list+school_list2+school_list3:
             expr = "expr=Composite(AA.AfN='%s')&model=latest&attributes=Id,Ti,CC,C.CN,J.JN,Y,AA.AuId,AA.AuN&count=20000&offset=0"%i
             obj_url = url_head + expr
             que.put(obj_url)

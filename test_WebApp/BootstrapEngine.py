@@ -48,7 +48,7 @@ def dictRend(source_dic,out_file_path="BootstrapOutput.html",title = "Title",a_c
         </table>
     </div>
     '''
-    with open('pages/'+out_file_path,'w') as f:
+    with open(out_file_path,'w') as f:
         f.write(html_head.replace("{{  title  }}","Rank of " + title))
         f.write(table_head)
         f.writelines("<tbody>")

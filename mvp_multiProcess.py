@@ -1,13 +1,18 @@
 #-*- coding: utf-8 -*-
-"""
+""" 
+    MVP V2.0 
     多进程，快得一比
     2016-11-06
     author: liu kun
+    默认脚本同数据文件在同一目录下
 """
-# This file shall of the same level with the json data 
+__python_version__ = 2.7
+__author__ = "Liu Kun"
+__last_edit__ = "2017-04-25"
+
 import json
 import os
-import BootstrapEngine  as BS
+import BootstrapEngine as BS
 import indexGenerator as g
 import time
 from multiprocessing import Process, Queue
@@ -57,7 +62,7 @@ def school_mvr(entities_json):
                 author_dic[au["AuId"]][1]+= i.get("CC")
     return author_dic
 
-#Regular process for the English institute name
+# 处理英文机构名称书写格式
 def regular_institute_name(name):
     words_list = name.split(' ')
     index = 0
@@ -68,11 +73,11 @@ def regular_institute_name(name):
     reg_name = ' '.join(words_list)
     return reg_name
 
-    
-if __name__ =="__main__":
+def main():
     fileList = []
     que = Queue()
-    for root, dirs, files in os.walk('./'):#递归path下所有目录
+    # 递归path下所有目录寻找 .json 数据文件
+    for root, dirs, files in os.walk('./'):
         for f_name in files:
             if f_name.lower().endswith('.json'):
                 fileList.append(f_name)
@@ -87,13 +92,11 @@ if __name__ =="__main__":
         p.daemon = False  #子进程不会在主进程结束时终止
         process_list.append(p)
         p.start()
-    while True:
-        end_flag = True
-        for p in process_list:
-            if p.is_alive():
-                end_flag = False
-                break
-        if end_flag:
-            print('cost:',time.clock() - start_time,'s')
-            break
+    for p in process_list:
+        p.join()
+    print('The process costed %f\'s'%(time.clock() - start_time))
+
+if __name__ =="__main__":
+    main()
+
  

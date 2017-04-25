@@ -5,13 +5,14 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+import settings
 
-def index_generate(file_list):
+def index_generate(file_list, save_to=os.path.join(settings.INDEX_PAGE_PATH,"index.html")):
     containner_head = '''
 <!DOCTYPE html>
 <html>
-  <head>	  
-	<meta charset="utf-8">
+  <head>      
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">
     <style type="text/css">
@@ -32,16 +33,16 @@ def index_generate(file_list):
   <div>
     <div class="container-fluid">
         <div class="span12">
-			<div class="page-header" style="background:#B481BB;">
-				<h1>
-					<span>College Academic</span>
-				</h1>
-				<h1>
-					<small><span>Sampling statistics</span></small>
-				</h1>
-				<h2>
-					<strong>%s</strong>
-				</h2>
+            <div class="page-header" style="background:#B481BB;">
+                <h1>
+                    <span>College Academic</span>
+                </h1>
+                <h1>
+                    <small><span>Sampling statistics</span></small>
+                </h1>
+                <h2>
+                    <strong>%s</strong>
+                </h2>
             </div>
         </div>
     '''%"Data from Microsoft Academic"
@@ -59,7 +60,7 @@ def index_generate(file_list):
   </footer>
 </html>
     '''
-    with open("./pre_index.html",'w') as f:
+    with open(save_to,'w') as f:
         f.write(containner_head)
         f.writelines('<div class="span12">')
         for i in file_list:
@@ -88,16 +89,14 @@ def regular_institute_name(name):
 
 def exe(path):
     fileList = []
-    for root, dirs, files in os.walk(path):	#递归path下所有目录
+    for root, dirs, files in os.walk(path): #递归path下所有目录
         for f_name in files:
             if f_name.lower().endswith('.html'):
                 fileList.append(f_name)
     index_generate(fileList)
-    
+
+def main():
+    exe(settings.PAGE_PATH)
+  
 if __name__ =="__main__":
-    fileList = []
-    for root, dirs, files in os.walk('pages/'):	#递归path下所有目录
-        for f_name in files:
-            if f_name.lower().endswith('.html'):
-                fileList.append(f_name)
-    index_generate(fileList)
+    main()
